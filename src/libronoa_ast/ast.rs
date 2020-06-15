@@ -1,46 +1,34 @@
-struct Statement {
-}
+/*
+ * Copyright (c) 2020 Nattakit Hosapsin
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-enum StatementKind {
-}
+struct Statement {}
 
-struct Expression {
-}
+enum StatementKind {}
 
-enum ExpressionKind {
+struct Expression {}
+
+enum ExpressionKind
+{
     Call(Box<Expression>, Vec<Box<Expression>>),
     Assign(Box<Expression>, Box<Expression>),
     Binary(Box<BinaryOperation>, Box<Expression>, Box<Expression>),
-    Literal(Literal)
+    Literal(Literal),
 }
 
 struct BinaryOperation;
 
 struct Literal;
-
-/*
-
-trait Visitor<T> {
-    fn visit(&mut self, node: &T);
-}
-
-trait Node: Sized {
-    fn accept<T>(&self, visitor: &mut T) where T: Visitor<Self> {
-        visitor.visit(self);
-    }
-}
-
-struct Walker;
-
-impl Visitor<Statement> for Walker {
-    fn visit(&mut self, statement: &Statement) {
-        self.visit(&statement.left);
-    }
-}
-
-impl Visitor<Expression> for Walker {
-    fn visit(&mut self, expression: &Expression) {
-    }
-}
-
-*/

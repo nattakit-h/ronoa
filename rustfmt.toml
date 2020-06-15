@@ -1,0 +1,12 @@
+unstable_features = true
+brace_style = "AlwaysNextLine"
+# control_brace_style = "AlwaysNextLine"
+force_multiline_blocks = true
+format_macro_matchers = true
+imports_layout = "Vertical"
+match_block_trailing_comma = true
+merge_imports = true
+license_template_path = "meta/LICENSE_HEADER_TEMPLATE"
+newline_style = "Unix"
+reorder_impl_items = true
+where_single_line = true

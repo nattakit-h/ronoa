@@ -14,25 +14,3 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
-use libronoa_lexer::lexer;
-use std::{
-    env,
-    fs,
-};
-
-fn main()
-{
-    let args: Vec<String> = env::args().collect();
-    if args.len() != 2 {
-        panic!("incorrect arguments");
-    }
-
-    let filepath = &args[1];
-    let contents = fs::read_to_string(filepath).expect("unable to read file");
-    let mut lexer = lexer::Lexer::new();
-    lexer
-        .tokens_from(contents)
-        .iter()
-        .for_each(|token| println!("{}", token));
-}
