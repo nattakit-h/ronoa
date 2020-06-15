@@ -1,9 +1,7 @@
-[package]
-name = "ronoa"
-version = "0.0.1"
-authors = ["Nattakit Hosapsin <nattakit@hosapsin.com>"]
-edition = "2018"
+[workspace]
+members = [
+    "src/libronoa_ast",
+    "src/libronoa_lexer",
+    "src/ronoa",
+]
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
-[dependencies]

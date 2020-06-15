@@ -1,0 +1,13 @@
+[package]
+name = "ronoa"
+version = "0.0.0"
+authors = ["Nattakit Hosapsin <nattakit@hosapsin.com>"]
+edition = "2018"
+
+[[bin]]
+name = "ronoa"
+path = "ronoa.rs"
+
+[dependencies]
+libronoa_lexer = { path = "../libronoa_lexer" }
+libronoa_ast = { path ="../libronoa_ast" }
