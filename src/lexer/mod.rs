@@ -11,8 +11,8 @@ pub struct Lexer {
 impl Lexer {
     pub fn new() -> Lexer {
         return Lexer {
-            result: Vec::new(),
-            source: String::new(),
+            result: Vec::default(),
+            source: String::default(),
             current: 0,
             col: 1,
             row: 1,
@@ -36,6 +36,7 @@ impl Lexer {
                 ')' => self.consume_token(")", token::TokenKind::RightParen),
                 '{' => self.consume_token("{", token::TokenKind::LeftBrace),
                 '}' => self.consume_token("}", token::TokenKind::RightBrace),
+                '&' => self.consume_token("&", token::TokenKind::Ampersand),
                 ':' => self.consume_token(":", token::TokenKind::Colon),
                 ';' => self.consume_token(";", token::TokenKind::SemiColon),
                 '.' => self.consume_token(".", token::TokenKind::Dot),
@@ -48,17 +49,40 @@ impl Lexer {
                     '=' => self.consume_token("!=", token::TokenKind::BangEqual),
                     _ => self.consume_token("!", token::TokenKind::Bang),
                 },
-                '+' => self.consume_token("+", token::TokenKind::Plus),
+                '+' => match self.peek_next() {
+                    '=' => self.consume_token("+=", token::TokenKind::PlusEqual),
+                    _ => self.consume_token("+", token::TokenKind::Plus),
+                },
+
                 '-' => match self.peek_next() {
                     '>' => self.consume_token("->", token::TokenKind::Arrow),
+                    '=' => self.consume_token("-=", token::TokenKind::MinusEqual),
                     _ => self.consume_token("-", token::TokenKind::Minus),
                 },
-                '*' => self.consume_token("*", token::TokenKind::Star),
+                '*' => match self.peek_next() {
+                    '=' => self.consume_token("*=", token::TokenKind::StarEqual),
+                    _ => self.consume_token("*", token::TokenKind::Star),
+                },
                 '/' => match self.peek_next() {
                     '/' => self.consume_line(),
+                    '=' => self.consume_token("/=", token::TokenKind::SlashEqual),
                     _ => self.consume_token("/", token::TokenKind::Slash),
                 },
+                '>' => match self.peek_next() {
+                    '=' => self.consume_token(">=", token::TokenKind::GreaterEqual),
+                    _ => self.consume_token(">", token::TokenKind::Greater),
+                },
+                '<' => match self.peek_next() {
+                    '=' => self.consume_token("<=", token::TokenKind::LesserEqual),
+                    _ => self.consume_token("<", token::TokenKind::Lesser),
+                },
                 '"' => self.consume_string(),
+                'c' => match self.peek_word().as_ref() {
+                    "const" => self.consume_token("const", token::TokenKind::Const),
+                    _ => {
+                        self.consume_token(self.peek_word().as_ref(), token::TokenKind::Identifier);
+                    }
+                },
                 'e' => match self.peek_word().as_ref() {
                     "else" => self.consume_token("if", token::TokenKind::Else),
                     _ => {
@@ -79,7 +103,20 @@ impl Lexer {
                     }
                 },
                 'r' => match self.peek_word().as_ref() {
+                    "ref" => self.consume_token("ref", token::TokenKind::Ref),
                     "return" => self.consume_token("return", token::TokenKind::Return),
+                    _ => {
+                        self.consume_token(self.peek_word().as_ref(), token::TokenKind::Identifier);
+                    }
+                },
+                'm' => match self.peek_word().as_ref() {
+                    "mutate" => self.consume_token("muate", token::TokenKind::Mutate),
+                    _ => {
+                        self.consume_token(self.peek_word().as_ref(), token::TokenKind::Identifier);
+                    }
+                },
+                'p' => match self.peek_word().as_ref() {
+                    "public" => self.consume_token("public", token::TokenKind::Public),
                     _ => {
                         self.consume_token(self.peek_word().as_ref(), token::TokenKind::Identifier);
                     }
@@ -96,7 +133,7 @@ impl Lexer {
                         self.consume_token(self.peek_word().as_ref(), token::TokenKind::Identifier);
                     }
                 },
-                '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' => {
+                '0'..='9' => {
                     self.consume_number();
                 }
                 ' ' => self.advance(1),
@@ -177,6 +214,7 @@ impl Lexer {
         }
         self.row += 1;
         self.col = 1;
+        self.make_token(token::TokenKind::Newline, String::from(""));
     }
 
     fn consume_line(&mut self) {
