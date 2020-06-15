@@ -1,7 +1,4 @@
 [workspace]
 members = [
-    "src/libronoa_ast",
-    "src/libronoa_lexer",
-    "src/ronoa",
+  "src/ronoa",
 ]
-
