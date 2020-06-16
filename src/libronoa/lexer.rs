@@ -297,6 +297,12 @@ impl Lexer
 
     fn consume_newline(&mut self)
     {
+        self.col += 1;
+        if !(self.result.len() != 0
+            && self.result.last().expect("internal lexer error").kind == token::TokenKind::Newline)
+        {
+            self.make_token(token::TokenKind::Newline, "".to_string());
+        }
         if (self.peek() == '\n' && self.peek() == '\r')
             || (self.peek() == '\r' && self.peek() == '\n')
         {
@@ -306,7 +312,6 @@ impl Lexer
         }
         self.row += 1;
         self.col = 1;
-        self.make_token(token::TokenKind::Newline, String::from(""));
     }
 
     fn consume_line(&mut self)

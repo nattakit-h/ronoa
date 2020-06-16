@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-use libronoa_lexer::lexer;
+use libronoa::lexer;
 use std::{
     env,
     fs,

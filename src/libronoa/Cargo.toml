@@ -1,12 +1,13 @@
 [package]
-name = "libronoa_ast"
+name = "libronoa"
 version = "0.0.0"
 authors = ["Nattakit Hosapsin <nattakit@hosapsin.com>"]
 license = "LGPL-3.0-or-later"
 edition = "2018"
 
 [lib]
-name = "libronoa_ast"
+name = "libronoa"
 path = "lib.rs"
 
 [dependencies]
+

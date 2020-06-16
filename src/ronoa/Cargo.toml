@@ -9,5 +9,5 @@ name = "ronoa"
 path = "ronoa.rs"
 
 [dependencies]
-libronoa_lexer = { path = "../libronoa_lexer" }
-libronoa_ast = { path ="../libronoa_ast" }
+libronoa = { path ="../libronoa" }
+

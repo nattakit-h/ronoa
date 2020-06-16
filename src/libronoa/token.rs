@@ -16,7 +16,7 @@
  */
 use std::fmt;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub enum TokenKind
 {
     Newline,
